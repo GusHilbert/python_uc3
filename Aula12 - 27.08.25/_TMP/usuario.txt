@@ -1,0 +1,8 @@
+Usuários:
+    Cpf
+    Nome
+    Email
+    Telefone
+    
+
+Produtos

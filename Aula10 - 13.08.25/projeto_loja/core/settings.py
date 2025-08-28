@@ -40,7 +40,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles' # Mais uma vez, usando o operador /
 MEDIA_URL = '/media/'
 
 # Diretório onde os arquivos de mídia serão armazenados no servidor
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT =  Path(BASE_DIR) / 'media'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/

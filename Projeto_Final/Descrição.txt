@@ -1,0 +1,18 @@
+Usando Django
+Criar Projeto (core)
+Criar o App "Site"
+Criar o App "Usuário"
+Criar o App "Estoque"
+
+______________________
+
+Criou ambiente virtual venv.
+Criou projeto Django core com django-admin startproject core ./.
+Criou apps loja, usuario e estoque.
+Registrou apps em INSTALLED_APPS do core/settings.py.
+Criou urls.py em loja com rota home.
+Configurou core/urls.py para incluir urls dos apps.
+Criou urls.py básicos para usuario e estoque.
+Rodou migrações com python manage.py migrate.
+Rodou servidor com python manage.py runserver.
+Testou página inicial de loja no navegador.
