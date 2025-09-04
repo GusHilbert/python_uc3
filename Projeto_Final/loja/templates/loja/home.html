@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loja de Departamento</title>
+</head>
+<body>
+    <h1>Bem-vindo à Loja!</h1>
+
+    <ul>
+        {% for produto in produtos %}
+            <li>
+                <strong>{{ produto.nome }}</strong><br>
+                R$ {{ produto.preco }}<br>
+                {% if produto.imagem %}
+                    <img src="{{ produto.imagem.url }}" width="150"><br>
+                {% endif %}
+                {{ produto.descricao|truncatechars:100 }}
+            </li>
+        {% empty %}
+            <li>Nenhum produto disponível.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
