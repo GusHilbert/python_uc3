@@ -4,7 +4,7 @@ Criar o App "Site"
 Criar o App "Usuário"
 Criar o App "Estoque"
 
-______________________
+___________________________________________________________________________
 
 Criou ambiente virtual venv.
 Criou projeto Django core com django-admin startproject core ./.
@@ -16,3 +16,127 @@ Criou urls.py básicos para usuario e estoque.
 Rodou migrações com python manage.py migrate.
 Rodou servidor com python manage.py runserver.
 Testou página inicial de loja no navegador.
+
+___________________________________________________________________________
+
+Projeto Django – Universo Miau
+
+Crie um projeto Django chamado universo_miau, com os seguintes requisitos, apps e características:
+
+🧩 Apps do Projeto
+
+loja:
+
+Portal principal da loja.
+
+Página inicial com produtos em destaque, banners, categorias.
+
+Exibição de produtos organizados por categoria.
+
+Página de detalhes do produto com imagens, descrição e informações.
+
+Seção especial na página inicial para produtos em promoção (marcados no admin).
+
+Carrinho de compras e processo de checkout (opcional, futuro).
+
+estoque:
+
+Gerenciamento completo de produtos.
+
+Controle de entrada e saída de estoque.
+
+Campos do produto: nome, descrição, SKU, categoria, preço, quantidade, imagem, status (ativo/inativo), em promoção (bool).
+
+Upload e manipulação de imagens com Pillow.
+
+Área de administração com possibilidade de marcar produtos como promocionais.
+
+usuario:
+
+Sistema de autenticação (login, logout, cadastro).
+
+Perfis de usuário com dados como endereço, telefone, histórico de compras.
+
+Usuários com permissões diferenciadas: cliente, administrador.
+
+Formulários personalizados usando django-crispy-forms e django-widget-tweaks.
+
+blog:
+
+Sistema de posts com título, conteúdo, autor, data, categoria e imagem de capa.
+
+Foco em conteúdo editorial: dicas, reviews, matérias sobre produtos da loja.
+
+Interface amigável para leitura.
+
+Possível futura inclusão de comentários e tags.
+
+🎨 Identidade Visual do Projeto
+
+Nome do site: Universo Miau
+
+Tema visual: Moderno, interativo, leve e acessível.
+
+Cores principais:
+
+Chumbo (#444)
+
+Branco (#fff)
+
+Preto (#000)
+
+Azul vibrante (ex: #007BFF ou similar)
+
+Design responsivo e clean, utilizando HTML5 + CSS3 e, opcionalmente, Bootstrap 4 ou 5.
+
+🛒 Funcionalidade Especial: Produtos em Promoção
+
+O modelo de produto (app estoque) deve conter um campo booleano: em_promocao.
+
+Esse campo pode ser marcado na interface administrativa ou painel personalizado.
+
+Os produtos marcados como "em promoção" serão exibidos na página inicial do site (app loja) em uma seção de destaque, com título como:
+
+"🔥 Produtos em Promoção" ou "Ofertas da Semana".
+
+Essa seção deve usar cores e elementos visuais que chamem atenção (ex: destaque com azul e branco sobre fundo chumbo).
+
+⚙️ Configurações e Organização do Projeto
+
+Separação de apps por função (loja, estoque, usuario, blog).
+
+Organização de templates por app dentro da pasta templates/.
+
+Template base base.html com herança para as outras páginas.
+
+Organização de arquivos estáticos (static/) e mídia (media/).
+
+Configuração de MEDIA_ROOT, MEDIA_URL, STATIC_URL, e uso correto no settings.py.
+
+URLs organizadas em arquivos urls.py individuais por app, incluídos no urls.py principal.
+
+🧰 Bibliotecas a Utilizar
+
+Instalar e configurar as seguintes bibliotecas:
+
+django-crispy-forms: Para estilização de formulários com Bootstrap.
+
+django-widget-tweaks: Para personalização de widgets no template.
+
+Pillow: Para upload e manipulação de imagens.
+
+(Opcional: django-ckeditor ou django-tinymce para textos ricos no blog)
+
+💡 Extras (futuro ou opcional)
+
+Paginação em listas (produtos e posts).
+
+Sistema de busca por produtos e posts.
+
+Filtros por categorias, preços e status no estoque.
+
+Painel administrativo personalizado com dashboards.
+
+SEO básico (meta tags, slugs, títulos dinâmicos).
+
+Sitemap e integração com Google Search Console.

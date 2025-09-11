@@ -24,6 +24,7 @@ class Produto(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
+    em_promocao = models.BooleanField(default=False)  # FLAG
 
     def __str__(self):
         return self.nome

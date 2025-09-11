@@ -23,11 +23,13 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('loja.urls')),  # Página inicial
+    path('', include('loja.urls')),      # Página inicial
     path('usuario/', include('usuario.urls')),   # rotas para o app usuario
     path('estoque/', include('estoque.urls')),   # rotas para o app estoque
+    path('blog/', include('blog.urls')),         # rotas para o app blog
 ]
 
 # Para servir imagens em desenvolvimento
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
