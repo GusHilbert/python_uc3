@@ -4,68 +4,133 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Universo Miau 🐾</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'loja/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
 </head>
-<body>
-    <!-- Cabeçalho -->
-    <header class="topo">
-        <div class="topo-conteudo">
-            <div class="logo">
-                <h1>🐾 Universo Miau</h1>
-            </div>
+<body class="dark-mode">
+    <!-- 🔹 Barra Lateral de Categorias -->
+    <nav class="menu-categorias">
+        <a href="{% url 'home' %}">Todos</a>  <!-- Link para todos os produtos -->
+        {% for categoria in categorias %}
+            <a href="?categoria_id={{ categoria.id }}">{{ categoria.nome }}</a>  <!-- Link para filtrar por categoria -->
+        {% endfor %}
+    </nav>
 
-            <div class="barra-pesquisa">
-                <input type="text" placeholder="Buscar produtos...">
-                <button>🔍</button>
-            </div>
+    <!-- 🔹 Conteúdo Principal -->
+    <div class="conteudo-principal">
+        <!-- 🔹 Cabeçalho -->
+        <header class="topo">
+            <div class="topo-conteudo">
+                <div class="logo">🐾 Universo Miau</div>
 
-            <nav class="menu-categorias">
-                <a href="#">Informática</a>
-                <a href="#">Roupas</a>
-                <a href="#">Brinquedos</a>
-                <a href="#">Cozinha</a>
-                <a href="#">Games</a>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Conteúdo principal -->
-    <main class="container">
-        <h2 class="titulo-secao">✨ Vitrine de Produtos</h2>
-        <div class="grid-produtos">
-            {% for produto in produtos %}
-                <div class="produto-card">
-                    {% if produto.em_promocao %}
-                        <span class="selo-promocao">Promoção</span>
-                    {% endif %}
-
-                    <div class="imagem-produto">
-                        {% if produto.imagem %}
-                            <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
-                        {% else %}
-                            <img src="{% static 'loja/img/placeholder.png' %}" alt="Imagem indisponível">
-                        {% endif %}
-                        <a href="#" class="btn-comprar">Comprar</a>
-                    </div>
-
-                    <h3>{{ produto.nome }}</h3>
-                    <p class="descricao">{{ produto.descricao|truncatewords:15 }}</p>
-                    <p class="preco">R$ {{ produto.preco }}</p>
+                <div class="barra-pesquisa">
+                    <input type="text" placeholder="Buscar produtos...">
+                    <button>🔍</button>
                 </div>
-            {% empty %}
-                <p class="sem-produtos">😿 Nenhum produto disponível no momento.</p>
-            {% endfor %}
-        </div>
-    </main>
 
-    <!-- Rodapé -->
+                <!-- Botão de alternância de tema -->
+                <div class="toggle-tema">
+                    <button id="btn-toggle-tema">
+                        <span class="lua">🌙</span>
+                        <span class="sol">🌞</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 🔹 Carrossel de Produtos em Destaque -->
+        <section class="carrossel">
+            <h2>🔥 Promoções em Destaque</h2>
+            <div class="carrossel-container">
+                {% for produto in produtos_em_promocao|slice:":5" %}
+                <div class="carrossel-item">
+                    {% if produto.imagem %}
+                        <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" class="img-fixada">
+                    {% else %}
+                        <img src="{% static 'img/produto-sem-imagem.jpg' %}" alt="Imagem não disponível" class="img-fixada">
+                    {% endif %}
+                    <p class="nome-produto">{{ produto.nome }}</p>
+                    <div class="preco-container">
+                        <span class="preco-antigo">R$ {{ produto.preco|floatformat:2 }}</span>
+                        <span class="preco-novo">R$ {{ produto.preco_promocional|floatformat:2 }}</span>
+                    </div>
+                </div>
+                {% empty %}
+                <p>Nenhuma promoção no momento.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- 🔹 Vitrine de Produtos -->
+        <main class="produtos">
+            <h2>🐱 Vitrine de Produtos</h2>
+            <div class="grid-produtos">
+                {% for produto in produtos %}
+                <div class="produto-card">
+                    {% if produto.imagem %}
+                        <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" class="img-fixada">
+                    {% else %}
+                        <img src="{% static 'img/produto-sem-imagem.jpg' %}" alt="Imagem não disponível" class="img-fixada">
+                    {% endif %}
+                    <div class="produto-info">
+                        <h3>{{ produto.nome }}</h3>
+                        <p class="descricao-curta">{{ produto.descricao|truncatechars:100 }}</p>
+                        
+                        <!-- Botão de detalhes -->
+                        <button class="btn-leia-mais"
+                            data-descricao="{{ produto.descricao }}"
+                            data-nome="{{ produto.nome }}"
+                            data-preco="{% if produto.em_promocao and produto.preco_promocional %}{{ produto.preco_promocional|floatformat:2 }}{% else %}{{ produto.preco|floatformat:2 }}{% endif %}"
+                            data-preco-original="{{ produto.preco|floatformat:2 }}"
+                            data-em-promocao="{{ produto.em_promocao }}"
+                            data-imagem="{% if produto.imagem %}{{ produto.imagem.url }}{% else %}{% static 'img/produto-sem-imagem.jpg' %}{% endif %}">
+                            📖 Leia Mais
+                        </button>
+
+                        <!-- Preços -->
+                        <div class="preco-container">
+                            {% if produto.em_promocao and produto.preco_promocional %}
+                                <span class="preco-antigo">R$ {{ produto.preco|floatformat:2 }}</span>
+                                <span class="preco-novo">R$ {{ produto.preco_promocional|floatformat:2 }}</span>
+                            {% else %}
+                                <span class="preco-normal">R$ {{ produto.preco|floatformat:2 }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>Nenhum produto disponível no momento.</p>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+
+    <!-- 🔹 Modal de Detalhes do Produto -->
+    <div id="modal-produto" class="modal">
+        <div class="modal-conteudo">
+            <span class="fechar">&times;</span>
+            <div class="modal-produto-container">
+                <img id="modal-imagem" src="" alt="Produto" class="modal-imagem">
+                <div class="modal-info">
+                    <h2 id="modal-nome"></h2>
+                    <p id="modal-descricao"></p>
+                    <p class="preco-grande">
+                        <span id="modal-preco-original" class="preco-antigo"></span>
+                        <span id="modal-preco" class="preco-novo"></span>
+                    </p>
+                    <button class="btn-comprar">🛒 Comprar Agora</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔹 Rodapé -->
     <footer class="rodape">
         <div class="rodape-conteudo">
             <div>
                 <h4>Universo Miau 🐾</h4>
-                <p>Seu shopping felino em cinza, branco e chumbo</p>
+                <p>Seu shopping felino em cinza, branco e chumbo.</p>
             </div>
             <div>
                 <h4>Links</h4>
@@ -79,7 +144,19 @@
                 <a href="#">Facebook</a>
             </div>
         </div>
-        <p class="copyright">© {{ now|date:"Y" }} Universo Miau 🐾</p>
+        <p class="copy">© 2025 Universo Miau 🐾</p>
     </footer>
+
+    <!-- JS -->
+    <script src="{% static 'js/home.js' %}"></script>
+
+    <script>
+        // Função para alternar entre os modos light e dark
+        function toggleTema() {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+            body.classList.toggle('dark-mode');
+        }
+    </script>
 </body>
 </html>
